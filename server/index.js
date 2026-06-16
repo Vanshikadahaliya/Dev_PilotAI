@@ -9,7 +9,7 @@ import authRoutes from './routes/auth.js';
 import repoRoutes from './routes/repos.js';
 import aiRoutes from './routes/ai.js';
 
-const app = express();
+ const app = express();
 
 connectDB();
 
@@ -18,6 +18,7 @@ app.use(cors({
   origin: env.clientUrl,
   credentials: true,
 }));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', apiLimiter);

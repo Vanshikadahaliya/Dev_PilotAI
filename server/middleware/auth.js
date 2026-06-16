@@ -15,15 +15,26 @@ export const protect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, env.jwtSecret);
-    const user = await User.findById(decoded.id);
 
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'User not found' });
+    try {
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        console.warn(`[Auth] JWT valid but no user found for id=${decoded.id}`);
+        return res.status(401).json({
+          success: false,
+          message:
+            'User not found. Token appears valid but the user record is missing. Re-authenticate to create/update your user.',
+        });
+      }
+
+      req.user = user;
+      next();
+    } catch (dbErr) {
+      console.error('[Auth] Error fetching user by id from DB', dbErr);
+      return res.status(500).json({ success: false, message: 'Server error while verifying user' });
     }
-
-    req.user = user;
-    next();
   } catch (error) {
+    console.warn('[Auth] Token verification failed:', error.message);
     return res.status(401).json({ success: false, message: 'Not authorized, token invalid' });
   }
 };

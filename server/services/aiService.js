@@ -1,70 +1,157 @@
 import axios from 'axios';
 import { env } from '../config/env.js';
 
-const callOpenAI = async (systemPrompt, userPrompt) => {
-  const { apiKey, model } = env.ai.openai;
+const extractAxiosError = (error, provider) => {
+  const apiError = error.response?.data?.error;
+  if (apiError?.message) return apiError.message;
+  if (typeof error.response?.data?.message === 'string') return error.response.data.message;
+  if (error.response?.status === 401) return `${provider} API key is invalid or unauthorized`;
+  if (error.response?.status === 429) return `${provider} rate limit or quota exceeded`;
+  return error.message || `${provider} request failed`;
+};
 
-  if (!apiKey) {
-    throw new Error('OpenAI API key is not configured');
+const callOpenAI = async (systemPrompt, userPrompt) => {
+  const { apiKey, model } = env.ai.openai || {};
+
+  if (!apiKey || apiKey.includes('your_') || apiKey.includes('your-')) {
+    throw new Error('OpenAI API key is not configured. Set OPENAI_API_KEY in server/.env');
   }
 
-  const { data } = await axios.post(
-    'https://api.openai.com/v1/chat/completions',
-    {
-      model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 4096,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+  try {
+    const { data } = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      {
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 4096,
       },
-    }
-  );
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
-  return data.choices[0].message.content;
+    if (!data.choices?.[0]?.message?.content) {
+      throw new Error('OpenAI returned an empty response');
+    }
+
+    return data.choices[0].message.content;
+  } catch (error) {
+    throw new Error(extractAxiosError(error, 'OpenAI'));
+  }
+};
+
+const callOpenRouter = async (systemPrompt, userPrompt) => {
+  const { apiKey, model } = env.ai.openrouter || {};
+
+  if (!apiKey) {
+    throw new Error('OpenRouter API key is not configured. Set OPENROUTER_API_KEY in server/.env');
+  }
+
+  try {
+    const { data } = await axios.post(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!data.choices?.[0]?.message?.content) {
+      throw new Error('OpenRouter returned an empty response');
+    }
+
+    return data.choices[0].message.content;
+  } catch (error) {
+    console.error('[AI][OpenRouter] error response:', error.response?.data || error.message);
+    const respErr = error.response?.data?.error?.message || error.response?.data?.message;
+    if (respErr) {
+      throw new Error(`OpenRouter API error: ${respErr}`);
+    }
+    throw new Error(extractAxiosError(error, 'OpenRouter'));
+  }
 };
 
 const callGemini = async (systemPrompt, userPrompt) => {
-  const { apiKey, model } = env.ai.gemini;
+  const { apiKey, model } = env.ai.gemini || {};
 
   if (!apiKey) {
-    throw new Error('Gemini API key is not configured');
+    throw new Error('Gemini API key is not configured. Set GEMINI_API_KEY in server/.env');
   }
 
-  const { data } = await axios.post(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-    {
-      contents: [
-        {
-          parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }],
+  try {
+    const { data } = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        contents: [
+          {
+            parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 4096,
         },
-      ],
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 4096,
       },
-    },
-    { headers: { 'Content-Type': 'application/json' } }
-  );
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) {
-    throw new Error('Gemini returned an empty response');
+    if (data.error?.message) {
+      throw new Error(data.error.message);
+    }
+
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      throw new Error('Gemini returned an empty response');
+    }
+    return text;
+  } catch (error) {
+    if (error.message && !error.response) throw error;
+    throw new Error(extractAxiosError(error, 'Gemini'));
   }
-  return text;
 };
 
 export const generateAIResponse = async (systemPrompt, userPrompt) => {
-  const provider = env.ai.provider.toLowerCase();
+  const provider = (env.ai.provider || 'openai').toLowerCase();
 
-  if (provider === 'gemini') {
-    return callGemini(systemPrompt, userPrompt);
+  if (provider === 'gemini') return callGemini(systemPrompt, userPrompt);
+
+  if (provider === 'openrouter') {
+    try {
+      return await callOpenRouter(systemPrompt, userPrompt);
+    } catch (err) {
+      const msg = String(err?.message || '').toLowerCase();
+      // If OpenRouter indicates the user/key is not found/authorized, try OpenAI as a fallback
+      if (
+  msg.includes('user not found') ||
+  msg.includes('unauthorized') ||
+  msg.includes('401')
+) {
+        console.warn('[AI] OpenRouter failed with authorization error, attempting fallback to OpenAI:', err.message);
+        const openaiApiKey = env.ai.openai?.apiKey;
+        if (!openaiApiKey || openaiApiKey.includes('your_') || openaiApiKey.includes('your-')) {
+          throw new Error(`OpenRouter API error: ${err.message}. No OpenAI fallback configured — set OPENAI_API_KEY in server/.env or switch AI_PROVIDER to openai`);
+        }
+        return callOpenAI(systemPrompt, userPrompt);
+      }
+      throw err;
+    }
   }
 
   return callOpenAI(systemPrompt, userPrompt);

@@ -41,6 +41,7 @@ export const generateReadmeHandler = async (req, res) => {
 
     res.json({ success: true, readme, analysis });
   } catch (error) {
+    console.error('[AI] generateReadmeHandler error', error);
     const status = error.message.includes('limit') ? 403 : 500;
     res.status(status).json({ success: false, message: error.message });
   }
@@ -68,6 +69,7 @@ export const generateDescriptionHandler = async (req, res) => {
 
     res.json({ success: true, descriptions, analysis });
   } catch (error) {
+    console.error('[AI] generateDescriptionHandler error', error);
     const status = error.message.includes('limit') ? 403 : 500;
     res.status(status).json({ success: false, message: error.message });
   }
@@ -99,6 +101,7 @@ export const generatePortfolioHandler = async (req, res) => {
 
     res.json({ success: true, portfolio });
   } catch (error) {
+    console.error('[AI] generatePortfolioHandler error', error);
     const status = error.message.includes('limit') ? 403 : 500;
     res.status(status).json({ success: false, message: error.message });
   }
@@ -135,6 +138,7 @@ export const summarizePRHandler = async (req, res) => {
 
     res.json({ success: true, summary });
   } catch (error) {
+    console.error('[AI] summarizePRHandler error', error);
     const status = error.message.includes('limit') ? 403 : 500;
     res.status(status).json({ success: false, message: error.message });
   }
@@ -161,6 +165,7 @@ export const explainBugHandler = async (req, res) => {
 
     res.json({ success: true, explanation });
   } catch (error) {
+    console.error('[AI] explainBugHandler error', error);
     const status = error.message.includes('limit') ? 403 : 500;
     res.status(status).json({ success: false, message: error.message });
   }
