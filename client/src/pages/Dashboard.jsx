@@ -45,13 +45,9 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2">
-          Welcome back, {user?.username}
-        </h1>
-        <p className="text-text-muted">
-          Your AI-powered developer copilot is ready to help.
-        </p>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="text-2xl font-semibold mb-1">Welcome back, {user?.username}</h1>
+        <p className="text-text-muted">Your AI-powered developer copilot is ready.</p>
       </motion.div>
 
       {/* Stats */}
@@ -59,32 +55,30 @@ export default function Dashboard() {
         <Card>
           <p className="text-sm text-text-muted mb-1">Plan</p>
           <div className="flex items-center gap-2">
-            <p className="text-2xl font-bold capitalize">{user?.plan}</p>
-            {user?.plan === 'pro' && <Crown className="w-5 h-5 text-secondary" />}
+            <p className="text-lg font-medium capitalize">{user?.plan}</p>
+            {user?.plan === 'pro' && <Crown className="w-4 h-4 text-secondary" />}
           </div>
         </Card>
         <Card>
-          <p className="text-sm text-text-muted mb-1">Generations This Month</p>
-          <p className="text-2xl font-bold">
-            {user?.plan === 'pro' ? '∞' : `${user?.generationsThisMonth || 0} / 5`}
-          </p>
+          <p className="text-sm text-text-muted mb-1">This Month</p>
+          <p className="text-lg font-medium">{user?.plan === 'pro' ? '∞' : `${user?.generationsThisMonth || 0} / 5`}</p>
         </Card>
         <Card>
           <p className="text-sm text-text-muted mb-1">Total Generations</p>
-          <p className="text-2xl font-bold">{generations.length}</p>
+          <p className="text-lg font-medium">{generations.length}</p>
         </Card>
       </div>
 
       {user?.plan !== 'pro' && (
-        <Card className="border-primary/30 bg-primary/5">
+        <Card className="border-primary/30 bg-primary/6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary" />
+              <div className="w-9 h-9 rounded flex items-center justify-center bg-primary/10">
+                <Zap className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <p className="font-semibold">Upgrade to Pro</p>
-                <p className="text-sm text-text-muted">Unlimited generations, Portfolio Builder, and PR Summaries</p>
+                <p className="font-medium">Upgrade to Pro</p>
+                <p className="text-sm text-text-muted">Unlimited generations and priority features</p>
               </div>
             </div>
             <Button onClick={handleUpgrade} size="sm">
@@ -96,13 +90,13 @@ export default function Dashboard() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-medium mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {tools.map((tool) => (
             <Link key={tool.to} to={tool.to}>
               <Card hover className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-lg ${tool.bgClass} flex items-center justify-center`}>
-                  <tool.icon className={`w-5 h-5 ${tool.iconClass}`} />
+                <div className={`w-9 h-9 rounded ${tool.bgClass} flex items-center justify-center`}>
+                  <tool.icon className={`w-4 h-4 ${tool.iconClass}`} />
                 </div>
                 <div className="flex-1">
                   <p className="font-medium">{tool.label}</p>
@@ -119,14 +113,12 @@ export default function Dashboard() {
 
       {/* Recent Generations */}
       <div>
-        <h2 className="text-lg font-semibold mb-4">Recent Generations</h2>
+        <h2 className="text-lg font-medium mb-4">Recent Generations</h2>
         {loading ? (
           <LoadingSpinner className="py-8" />
         ) : generations.length === 0 ? (
           <Card>
-            <p className="text-text-muted text-center py-4">
-              No generations yet. Start by syncing your repositories!
-            </p>
+            <p className="text-text-muted text-center py-4">No generations yet. Start by syncing your repositories!</p>
           </Card>
         ) : (
           <div className="space-y-2">
@@ -134,9 +126,7 @@ export default function Dashboard() {
               <Card key={gen._id} className="!p-4 flex items-center justify-between">
                 <div>
                   <Badge color="primary" className="capitalize">{gen.type.replace('-', ' ')}</Badge>
-                  <p className="text-xs text-text-muted mt-1">
-                    {new Date(gen.createdAt).toLocaleString()}
-                  </p>
+                  <p className="text-xs text-text-muted mt-1">{new Date(gen.createdAt).toLocaleString()}</p>
                 </div>
               </Card>
             ))}

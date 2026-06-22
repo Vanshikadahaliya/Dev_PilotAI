@@ -46,31 +46,29 @@ export default function Repositories() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold mb-1">Repositories</h1>
-            <p className="text-text-muted text-sm">
-              Connect and analyze your GitHub repositories
-            </p>
+            <h1 className="text-2xl font-semibold mb-1">Repositories</h1>
+            <p className="text-text-muted text-sm">Connect and analyze your GitHub repositories</p>
           </div>
-          <Button onClick={handleSync} loading={syncing}>
-            <RefreshCw className="w-4 h-4" />
-            Sync from GitHub
-          </Button>
+          <div className="flex items-center gap-3">
+            <div className="relative w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+              <input
+                type="text"
+                placeholder="Search repositories..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full bg-transparent border border-border rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-0"
+              />
+            </div>
+            <Button onClick={handleSync} loading={syncing} variant="ghost">
+              <RefreshCw className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </motion.div>
-
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-        <input
-          type="text"
-          placeholder="Search repositories..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-surface border border-border rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-        />
-      </div>
 
       {loading ? (
         <LoadingSpinner className="py-20" size="lg" />

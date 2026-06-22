@@ -106,7 +106,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="min-h-screen bg-background flex">
-      <aside className="hidden lg:flex w-64 border-r border-border bg-surface/50 flex-col fixed h-full">
+      <aside className="hidden lg:flex w-64 border-r border-border bg-transparent flex-col fixed h-full backdrop-blur-sm">
         <Sidebar />
       </aside>
 
@@ -139,7 +139,7 @@ export default function DashboardLayout() {
       </AnimatePresence>
 
       <div className="flex-1 lg:ml-64">
-        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border px-4 py-3 lg:px-8">
+        <header className="sticky top-0 z-30 bg-transparent border-b border-border/20 px-4 py-3 lg:px-8">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 rounded-lg hover:bg-surface"

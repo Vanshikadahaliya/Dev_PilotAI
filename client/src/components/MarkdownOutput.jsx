@@ -39,14 +39,14 @@ export default function MarkdownOutput({ content, filename = 'README.md' }) {
           Download
         </Button>
       </div>
-      <div className="bg-background border border-border rounded-xl p-6 overflow-auto max-h-[600px] prose prose-invert prose-sm max-w-none">
+      <div className="bg-surface border border-border rounded-xl p-6 overflow-auto max-h-[600px] prose prose-invert prose-sm max-w-none">
         <ReactMarkdown>{content}</ReactMarkdown>
       </div>
       <details className="group">
         <summary className="text-sm text-text-muted cursor-pointer hover:text-text">
           View raw markdown
         </summary>
-        <pre className="mt-2 bg-background border border-border rounded-xl p-4 text-xs overflow-auto max-h-[300px] text-text-muted">
+        <pre className="mt-2 bg-surface border border-border rounded-xl p-4 text-xs overflow-auto max-h-[300px] text-text-muted">
           {content}
         </pre>
       </details>

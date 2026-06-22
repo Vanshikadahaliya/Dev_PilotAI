@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import pinoHttp from 'pino-http';
 import { connectDB } from './config/db.js';
 import { env } from './config/env.js';
 import { apiLimiter } from './middleware/rateLimit.js';
@@ -18,6 +21,15 @@ app.use(cors({
   origin: env.clientUrl,
   credentials: true,
 }));
+
+// Security headers
+app.use(helmet());
+
+// Parse cookies (used for OAuth state)
+app.use(cookieParser());
+
+// Structured logging
+app.use(pinoHttp({ level: env.isDev ? 'debug' : 'info' }));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));

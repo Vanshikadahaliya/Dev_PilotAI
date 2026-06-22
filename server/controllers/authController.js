@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import User from '../models/User.js';
 import { env } from '../config/env.js';
 import { exchangeCodeForToken, getGitHubUser } from '../services/githubService.js';
@@ -8,10 +9,21 @@ const generateToken = (id) => {
 };
 
 export const githubAuth = (req, res) => {
+  const state = crypto.randomBytes(16).toString('hex');
+
+  // Store state in a secure, httpOnly cookie for verification in callback
+  res.cookie('oauth_state', state, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: env.nodeEnv === 'production',
+    maxAge: 5 * 60 * 1000, // 5 minutes
+  });
+
   const params = new URLSearchParams({
     client_id: env.github.clientId,
     redirect_uri: env.github.callbackUrl,
     scope: 'read:user user:email repo',
+    state,
   });
 
   res.redirect(`https://github.com/login/oauth/authorize?${params}`);
@@ -19,7 +31,15 @@ export const githubAuth = (req, res) => {
 
 export const githubCallback = async (req, res) => {
   try {
-    const { code } = req.query;
+    const { code, state } = req.query;
+
+    const cookieState = req.cookies?.oauth_state;
+    // clear cookie regardless
+    res.clearCookie('oauth_state');
+
+    if (!state || !cookieState || state !== cookieState) {
+      return res.redirect(`${env.clientUrl}/login?error=invalid_state`);
+    }
 
     if (!code) {
       return res.redirect(`${env.clientUrl}/login?error=no_code`);

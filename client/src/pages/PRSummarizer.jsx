@@ -53,14 +53,12 @@ export default function PRSummarizer() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <GitPullRequest className="w-6 h-6 text-secondary" />
-          <h1 className="text-2xl font-bold">PR Summarizer</h1>
+          <h1 className="text-2xl font-semibold">PR Summarizer</h1>
         </div>
-        <p className="text-text-muted text-sm">
-          Get AI-powered summaries of pull request changes
-        </p>
+        <p className="text-text-muted text-sm">Get AI-powered summaries of pull request changes</p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -80,7 +78,7 @@ export default function PRSummarizer() {
         />
       </div>
 
-      <Button onClick={handleSubmit} loading={loading}>
+      <Button onClick={handleSubmit} loading={loading} variant="primary">
         Summarize Pull Request
       </Button>
 

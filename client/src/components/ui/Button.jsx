@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 
 const variants = {
-  primary: 'bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/25',
-  secondary: 'bg-secondary hover:bg-secondary/80 text-white',
+  primary: 'bg-primary text-white hover:bg-primary-hover',
+  secondary: 'bg-secondary text-white hover:bg-secondary/90',
   outline: 'border border-border hover:bg-surface-hover text-text',
-  ghost: 'hover:bg-surface-hover text-text-muted hover:text-text',
+  ghost: 'hover:bg-transparent text-text-muted hover:text-text',
   danger: 'bg-red-600 hover:bg-red-700 text-white',
 };
 
@@ -25,9 +25,9 @@ export default function Button({
 }) {
   return (
     <motion.button
-      whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+      whileHover={{ scale: disabled || loading ? 1 : 1.01 }}
+      whileTap={{ scale: disabled || loading ? 1 : 0.995 }}
+      className={`inline-flex items-center justify-center gap-2 rounded-md font-sans font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       disabled={disabled || loading}
       {...props}
     >
