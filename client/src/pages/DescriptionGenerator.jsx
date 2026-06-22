@@ -57,7 +57,7 @@ export default function DescriptionGenerator() {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <Sparkles className="w-6 h-6 text-secondary" />
-          <h1 className="text-2xl font-bold">Project Description Generator</h1>
+          <h1 className="text-2xl font-semibold">Project Description Generator</h1>
         </div>
         <p className="text-text-muted text-sm">
           Generate descriptions for different platforms and contexts
@@ -68,7 +68,7 @@ export default function DescriptionGenerator() {
         <LoadingSpinner className="py-12" />
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[350px] overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[380px] overflow-y-auto pr-2">
             {repos.map((repo) => (
               <RepoCard
                 key={repo._id}

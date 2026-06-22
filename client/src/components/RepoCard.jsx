@@ -14,18 +14,18 @@ export default function RepoCard({ repo, onClick, selected }) {
 
   return (
     <motion.div
-      whileHover={{ y: -2 }}
+      whileHover={{ y: -4 }}
       onClick={() => onClick?.(repo)}
-      className={`bg-surface border rounded-xl p-5 cursor-pointer transition-all ${
-        selected ? 'border-primary ring-2 ring-primary/30' : 'border-border hover:border-primary/50'
+      className={`bg-transparent border rounded-xl p-5 cursor-pointer transition-all ${
+        selected ? 'border-primary ring-1 ring-primary/20 bg-surface/5' : 'border-border hover:shadow-sm hover:bg-surface/5'
       }`}
     >
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="font-semibold text-text truncate pr-2">{repo.repoName || repo.fullName}</h3>
-        {repo.language && <Badge color="primary">{repo.language}</Badge>}
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="font-medium text-text truncate pr-2">{repo.repoName || repo.fullName}</h3>
+        {repo.language && <Badge color="default">{repo.language}</Badge>}
       </div>
 
-      <p className="text-sm text-text-muted line-clamp-2 mb-4 min-h-[40px]">
+      <p className="text-sm text-text-muted line-clamp-2 mb-4 min-h-[36px]">
         {repo.description || 'No description available'}
       </p>
 

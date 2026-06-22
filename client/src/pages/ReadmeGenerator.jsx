@@ -42,7 +42,7 @@ export default function ReadmeGenerator() {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <FileText className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold">README Generator</h1>
+          <h1 className="text-2xl font-semibold">README Generator</h1>
         </div>
         <p className="text-text-muted text-sm">
           Select a repository and generate a professional README with AI
@@ -57,7 +57,7 @@ export default function ReadmeGenerator() {
         </p>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[420px] overflow-y-auto pr-2">
             {repos.map((repo) => (
               <RepoCard
                 key={repo._id}

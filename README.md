@@ -52,6 +52,7 @@ dev_pilotAI/
 2. Create a new app:
    - Homepage URL: `http://localhost:5173`
    - Callback URL: `http://localhost:5000/api/auth/github/callback`
+     - Important: the **Callback URL must match exactly** the `GITHUB_CALLBACK_URL` in `server/.env` (including protocol and port). If the browser shows "site can't be reached" after authorizing, check this value and the `CLIENT_URL` in the server `.env`.
 3. Copy Client ID and Client Secret
 
 ### 2. Backend Setup

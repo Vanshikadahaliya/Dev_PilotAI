@@ -59,14 +59,12 @@ export default function PortfolioGenerator() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <Globe className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold">Portfolio Generator</h1>
+          <h1 className="text-2xl font-semibold">Portfolio Generator</h1>
         </div>
-        <p className="text-text-muted text-sm">
-          Generate a complete portfolio website from your GitHub profile
-        </p>
+        <p className="text-text-muted text-sm">Generate a complete portfolio website from your GitHub profile</p>
       </motion.div>
 
       <Button onClick={handleGenerate} loading={generating} size="lg">
@@ -85,10 +83,10 @@ export default function PortfolioGenerator() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
           {portfolio.skills && (
             <Card>
-              <h3 className="font-semibold mb-3">Detected Skills</h3>
+              <h3 className="font-medium mb-3">Detected Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {portfolio.skills.map((skill) => (
-                  <Badge key={skill} color="primary">{skill}</Badge>
+                  <Badge key={skill} color="default">{skill}</Badge>
                 ))}
               </div>
             </Card>

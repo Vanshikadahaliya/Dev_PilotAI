@@ -38,14 +38,12 @@ export default function BugExplainer() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <Bug className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold">Bug Explainer</h1>
+          <h1 className="text-2xl font-semibold">Bug Explainer</h1>
         </div>
-        <p className="text-text-muted text-sm">
-          Paste an error message and stack trace to get AI-powered debugging help
-        </p>
+        <p className="text-text-muted text-sm">Paste an error message and stack trace to get AI-powered debugging help</p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -64,7 +62,7 @@ export default function BugExplainer() {
         />
       </div>
 
-      <Button onClick={handleSubmit} loading={loading}>
+      <Button onClick={handleSubmit} loading={loading} variant="primary">
         <Bug className="w-4 h-4" />
         Explain Bug
       </Button>

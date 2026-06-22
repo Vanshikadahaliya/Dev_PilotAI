@@ -22,9 +22,11 @@ export default function AuthCallback() {
   }, [searchParams, login, navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-4">
-      <LoadingSpinner size="lg" />
-      <p className="text-text-muted">Completing sign in...</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-4 px-4">
+      <div className="bg-surface border border-border rounded-xl p-6 flex flex-col items-center gap-4">
+        <LoadingSpinner size="lg" />
+        <p className="text-text-muted">Completing sign in...</p>
+      </div>
     </div>
   );
 }
