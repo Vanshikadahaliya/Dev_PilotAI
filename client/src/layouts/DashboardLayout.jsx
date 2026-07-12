@@ -121,9 +121,9 @@ export default function DashboardLayout() {
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
-              initial={{ x: -280 }}
+              initial={{ x: -288 }}
               animate={{ x: 0 }}
-              exit={{ x: -280 }}
+              exit={{ x: -288 }}
               className="fixed left-0 top-0 h-full w-72 bg-surface border-r border-border z-50 lg:hidden"
             >
               <button
