@@ -1,9 +1,9 @@
 export default function Select({ label, options, className = '', ...props }) {
   return (
-    <div className="space-y-2">
-      {label && <label className="block text-sm font-medium text-text-muted">{label}</label>}
+    <div className="space-y-2.5">
+      {label && <label className="block text-sm font-medium text-text">{label}</label>}
       <select
-        className={`w-full bg-background border border-border rounded-lg px-4 py-3 text-text focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary ${className}`}
+        className={`w-full bg-surface border border-border rounded-md px-3.5 py-3 text-text focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary ${className}`}
         {...props}
       >
         {options.map((opt) => (

@@ -42,8 +42,8 @@ export default function DashboardLayout() {
     <div className="flex flex-col h-full">
       <div className="p-6 border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white">
+            <Zap className="w-4 h-4" />
           </div>
           <span className="font-bold text-lg">DevPilot AI</span>
         </div>
@@ -106,7 +106,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="min-h-screen bg-background flex">
-      <aside className="hidden lg:flex w-64 border-r border-border bg-transparent flex-col fixed h-full backdrop-blur-sm">
+      <aside className="hidden lg:flex w-72 border-r border-border bg-surface flex-col fixed h-full">
         <Sidebar />
       </aside>
 
@@ -121,10 +121,10 @@ export default function DashboardLayout() {
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
-              initial={{ x: -280 }}
+              initial={{ x: -288 }}
               animate={{ x: 0 }}
-              exit={{ x: -280 }}
-              className="fixed left-0 top-0 h-full w-64 bg-surface border-r border-border z-50 lg:hidden"
+              exit={{ x: -288 }}
+              className="fixed left-0 top-0 h-full w-72 bg-surface border-r border-border z-50 lg:hidden"
             >
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -138,14 +138,19 @@ export default function DashboardLayout() {
         )}
       </AnimatePresence>
 
-      <div className="flex-1 lg:ml-64">
-        <header className="sticky top-0 z-30 bg-transparent border-b border-border/20 px-4 py-3 lg:px-8">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg hover:bg-surface"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+      <div className="flex-1 lg:ml-72">
+        <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur-sm px-4 py-3 lg:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 rounded-md border border-border text-text-muted hover:text-text hover:bg-surface-hover"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div className="hidden lg:block text-sm text-text-muted">
+              Workspace
+            </div>
+          </div>
         </header>
         <main className="p-4 lg:p-8">
           <Outlet />

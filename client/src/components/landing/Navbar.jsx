@@ -17,17 +17,16 @@ const links = [
 export default function Navbar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const { theme, toggle } = useTheme();
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-transparent">
+    <nav className="fixed top-0 w-full z-50 border-b border-border bg-surface/95 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded flex items-center justify-center bg-transparent border border-border">
-              <Zap className="w-4 h-4 text-primary" />
+            <div className="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white">
+              <Zap className="w-4 h-4" />
             </div>
-            <span className="text-base brand">DevPilot</span>
+            <span className="text-base brand">DevPilot AI</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
@@ -47,16 +46,16 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">Sign In</Button>
+                  <Button variant="ghost" size="sm">Sign in</Button>
                 </Link>
                 <Link to="/login">
-                  <Button size="sm">Get Started</Button>
+                  <Button size="sm">Get started</Button>
                 </Link>
               </>
             )}
           </div>
 
-          <button className="md:hidden p-2" onClick={() => setOpen(!open)}>
+          <button className="md:hidden p-2 text-text-muted" onClick={() => setOpen(!open)}>
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
@@ -64,7 +63,7 @@ export default function Navbar() {
 
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-border bg-background">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-border bg-surface">
             <div className="px-4 py-4 space-y-3">
               <div className="flex items-center justify-end">
                 <ThemeToggle />
@@ -88,7 +87,7 @@ export default function Navbar() {
 function ThemeToggle() {
   const { theme, toggle } = useTheme();
   return (
-    <button onClick={toggle} aria-label="Toggle theme" className="p-1">
+    <button onClick={toggle} aria-label="Toggle theme" className="p-2 rounded-md border border-border text-text-muted hover:text-text hover:bg-surface-hover transition-colors">
       {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
     </button>
   );

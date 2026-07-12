@@ -50,61 +50,59 @@ export default function Landing() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+      <section className="relative pt-28 pb-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="page-panel rounded-2xl p-8 sm:p-12 lg:p-16">
+            <div className="max-w-4xl mx-auto text-center">
+              <motion.div {...fadeUp}>
+                <span className="section-label mb-6">
+                  <Sparkles className="w-4 h-4" /> GitHub-style workspace for AI docs
+                </span>
+              </motion.div>
 
-        <div className="max-w-4xl mx-auto text-center relative">
-          <motion.div {...fadeUp}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4" /> AI-Powered Developer Copilot
-            </span>
-          </motion.div>
+              <motion.h1
+                {...fadeUp}
+                transition={{ delay: 0.1 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              >
+                Generate polished repository docs, summaries, and portfolio content
+              </motion.h1>
 
-          <motion.h1
-            {...fadeUp}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-          >
-            Generate Professional{' '}
-            <span className="gradient-text">GitHub READMEs</span>{' '}
-            in Seconds
-          </motion.h1>
+              <motion.p
+                {...fadeUp}
+                transition={{ delay: 0.2 }}
+                className="text-lg text-text-muted max-w-2xl mx-auto mb-8"
+              >
+                DevPilot AI analyzes your repositories and produces READMEs, portfolio sites, project descriptions, PR summaries, and bug explanations.
+              </motion.p>
 
-          <motion.p
-            {...fadeUp}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-text-muted max-w-2xl mx-auto mb-8"
-          >
-            DevPilot AI analyzes your repositories and generates READMEs, portfolio sites,
-            project descriptions, PR summaries, and bug explanations — all powered by AI.
-          </motion.p>
+              <motion.div
+                {...fadeUp}
+                transition={{ delay: 0.3 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+              >
+                <Link to="/login">
+                  <Button size="lg" className="w-full sm:w-auto">
+                    Get started free <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <a href="#features">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                    Explore features
+                  </Button>
+                </a>
+              </motion.div>
 
-          <motion.div
-            {...fadeUp}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link to="/login">
-              <Button size="lg" className="w-full sm:w-auto">
-                Get Started Free <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-            <a href="#features">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                Explore Features
-              </Button>
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mt-16"
-          >
-            <ChevronDown className="w-6 h-6 mx-auto text-text-muted animate-bounce" />
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="mt-16"
+              >
+                <ChevronDown className="w-6 h-6 mx-auto text-text-muted" />
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -112,9 +110,10 @@ export default function Landing() {
       <section id="features" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div {...fadeUp} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Everything You Need</h2>
+            <span className="section-label mb-4">Features</span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Everything you need</h2>
             <p className="text-text-muted max-w-2xl mx-auto">
-              Six powerful AI tools designed for modern developers
+              Six focused AI tools designed for the GitHub workflow
             </p>
           </motion.div>
 
@@ -122,7 +121,7 @@ export default function Landing() {
             {features.map((f, i) => (
               <motion.div key={f.title} {...fadeUp} transition={{ delay: i * 0.1 }}>
                 <Card hover className="h-full">
-                  <div className="w-10 h-10 rounded-lg bg-primary/15 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
                     <f.icon className="w-5 h-5 text-primary" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{f.title}</h3>
@@ -135,17 +134,18 @@ export default function Landing() {
       </section>
 
       {/* How it Works */}
-      <section id="how-it-works" className="py-20 px-4 bg-surface/30">
+      <section id="how-it-works" className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-text-muted">Three simple steps to supercharge your workflow</p>
+            <span className="section-label mb-4">How it works</span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Three simple steps</h2>
+            <p className="text-text-muted">Connect GitHub, choose a tool, export the result.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {steps.map((s, i) => (
               <motion.div key={s.step} {...fadeUp} transition={{ delay: i * 0.15 }} className="text-center">
-                <div className="text-5xl font-bold gradient-text mb-4">{s.step}</div>
+                <div className="text-5xl font-bold text-primary mb-4">{s.step}</div>
                 <h3 className="font-semibold text-lg mb-2">{s.title}</h3>
                 <p className="text-sm text-text-muted">{s.desc}</p>
               </motion.div>
@@ -158,7 +158,8 @@ export default function Landing() {
       <section id="pricing" className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div {...fadeUp} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Simple Pricing</h2>
+            <span className="section-label mb-4">Pricing</span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Simple pricing</h2>
             <p className="text-text-muted">Start free, upgrade when you need more</p>
           </motion.div>
 
@@ -179,7 +180,7 @@ export default function Landing() {
             </motion.div>
 
             <motion.div {...fadeUp} transition={{ delay: 0.1 }}>
-              <Card className="h-full border-primary/50 ring-1 ring-primary/20 relative">
+              <Card className="h-full border-primary/30 relative">
                 <span className="absolute -top-3 right-6 px-3 py-1 bg-primary text-white text-xs font-medium rounded-full">Popular</span>
                 <h3 className="text-xl font-bold mb-2">Pro</h3>
                 <div className="text-4xl font-bold mb-6">$12<span className="text-base text-text-muted font-normal">/mo</span></div>
@@ -198,10 +199,11 @@ export default function Landing() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 px-4 bg-surface/30">
+      <section id="testimonials" className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Loved by Developers</h2>
+            <span className="section-label mb-4">Testimonials</span>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Loved by developers</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -234,13 +236,14 @@ export default function Landing() {
       <section id="faq" className="py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp} className="text-center mb-16">
+            <span className="section-label mb-4">FAQ</span>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">FAQ</h2>
           </motion.div>
 
           <div className="space-y-4">
             {faqs.map((faq, i) => (
-              <motion.details key={i} {...fadeUp} transition={{ delay: i * 0.05 }} className="group bg-surface border border-border rounded-xl">
-                <summary className="flex items-center justify-between p-5 cursor-pointer font-medium hover:text-primary transition-colors">
+              <motion.details key={i} {...fadeUp} transition={{ delay: i * 0.05 }} className="group bg-surface border border-border rounded-md">
+                <summary className="flex items-center justify-between p-5 cursor-pointer font-medium hover:text-primary transition-colors list-none">
                   {faq.q}
                   <ChevronDown className="w-4 h-4 text-text-muted group-open:rotate-180 transition-transform" />
                 </summary>

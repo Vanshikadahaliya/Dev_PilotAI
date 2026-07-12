@@ -16,8 +16,8 @@ export default function RepoCard({ repo, onClick, selected }) {
     <motion.div
       whileHover={{ y: -4 }}
       onClick={() => onClick?.(repo)}
-      className={`bg-transparent border rounded-xl p-5 cursor-pointer transition-all ${
-        selected ? 'border-primary ring-1 ring-primary/20 bg-surface/5' : 'border-border hover:shadow-sm hover:bg-surface/5'
+      className={`bg-surface border rounded-md p-5 cursor-pointer transition-colors ${
+        selected ? 'border-primary bg-primary/5' : 'border-border hover:bg-surface-hover'
       }`}
     >
       <div className="flex items-start justify-between mb-2">
@@ -25,7 +25,7 @@ export default function RepoCard({ repo, onClick, selected }) {
         {repo.language && <Badge color="default">{repo.language}</Badge>}
       </div>
 
-      <p className="text-sm text-text-muted line-clamp-2 mb-4 min-h-[36px]">
+      <p className="text-sm text-text-muted line-clamp-2 mb-4 min-h-9">
         {repo.description || 'No description available'}
       </p>
 
