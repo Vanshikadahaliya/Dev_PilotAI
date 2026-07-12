@@ -17,7 +17,6 @@ const links = [
 export default function Navbar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  useTheme();
 
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-border bg-surface/95 backdrop-blur-sm">
