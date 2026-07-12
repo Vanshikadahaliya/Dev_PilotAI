@@ -6,10 +6,21 @@ const githubApi = axios.create({
 });
 
 export const exchangeCodeForToken = async (code, clientId, clientSecret) => {
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    code,
+  });
+
   const { data } = await axios.post(
     'https://github.com/login/oauth/access_token',
-    { client_id: clientId, client_secret: clientSecret, code },
-    { headers: { Accept: 'application/json' } }
+    body.toString(),
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
   );
 
   if (data.error) {

@@ -27,7 +27,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,19 +35,19 @@ export default function Login() {
       >
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded flex items-center justify-center bg-transparent border border-border">
-              <Zap className="w-4 h-4 text-primary" />
+            <div className="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white">
+              <Zap className="w-4 h-4" />
             </div>
-            <span className="text-base brand">DevPilot</span>
+            <span className="text-base brand">DevPilot AI</span>
           </Link>
           <h1 className="text-2xl font-semibold mb-2">Sign in to DevPilot</h1>
           <p className="text-text-muted">Connect your GitHub account to sync repositories</p>
         </div>
 
-        <div className="bg-surface/60 backdrop-blur-sm border border-border rounded-2xl p-8 space-y-6">
+        <div className="bg-surface border border-border rounded-md p-8 space-y-6 shadow-sm">
           <Button
             onClick={handleGitHubLogin}
-            className="w-full bg-[#24292e] hover:bg-[#2f363d]"
+            className="w-full bg-[#24292f] hover:bg-[#1f2328] text-white"
             size="lg"
           >
             <Code2 className="w-5 h-5" />
