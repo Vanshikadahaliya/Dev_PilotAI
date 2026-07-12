@@ -57,7 +57,7 @@ export default function ReadmeGenerator() {
         </p>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-105 overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[420px] overflow-y-auto pr-2">
             {repos.map((repo) => (
               <RepoCard
                 key={repo._id}
