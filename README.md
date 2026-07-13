@@ -6,34 +6,46 @@ AI-powered Developer Copilot that helps developers generate professional GitHub 
 
 | Layer | Technologies |
 |-------|-------------|
-| Frontend | React, Vite, Tailwind CSS, React Router, Axios, Framer Motion |
-| Backend | Node.js, Express.js |
+| Frontend | React, Next.js App Router, Tailwind CSS, Framer Motion |
+| Backend | Next.js Route Handlers, Node.js |
 | Database | MongoDB Atlas, Mongoose |
 | Auth | GitHub OAuth + JWT |
 | AI | OpenAI / Gemini (configurable) |
-| Deploy | Vercel (client) + Render (server) |
+| Deploy | Vercel (full-stack) |
 
 ## Project Structure
 
 ```
 dev_pilotAI/
-├── client/                 # React frontend (Vite)
-│   ├── src/
-│   │   ├── pages/          # Route pages
-│   │   ├── components/     # Reusable UI components
-│   │   ├── layouts/        # Dashboard layout
-│   │   ├── services/       # API client (Axios)
-│   │   ├── hooks/          # Custom React hooks
-│   │   └── context/        # Auth context provider
-│   └── vercel.json
-├── server/                 # Express API
-│   ├── config/             # DB & env config
+├── app/                    # Next.js App Router
+│   ├── api/                # API route handlers
+│   │   ├── auth/           # Authentication routes
+│   │   ├── repos/          # Repository routes
+│   │   ├── ai/             # AI generation routes
+│   │   └── health/         # Health check
+│   ├── dashboard/          # Dashboard pages
+│   ├── auth/               # Auth pages
+│   ├── layout.jsx          # Root layout with providers
+│   └── page.jsx            # Landing page
+├── lib/                    # Shared utilities
 │   ├── models/             # Mongoose schemas
-│   ├── routes/             # API route definitions
-│   ├── controllers/        # Request handlers
-│   ├── middleware/         # Auth, rate limiting, errors
-│   ├── services/           # GitHub & AI business logic
-│   └── render.yaml
+│   ├── db.js               # Database connection
+│   ├── auth.js             # JWT authentication
+│   ├── github.js           # GitHub API client
+│   ├── ai.js               # AI provider integration
+│   ├── generation.js       # Generation tracking
+│   ├── env.js              # Environment config
+│   └── response.js         # Response helpers
+├── context/                # React context providers
+│   ├── AuthContext.jsx     # Auth state
+│   └── ThemeContext.jsx    # Theme state
+├── components/             # Reusable UI components
+├── hooks/                  # Custom React hooks
+├── layouts/                # Layout components
+├── views/                  # Page view components
+├── services/               # API client utilities
+├── eslint.config.js        # ESLint configuration
+├── next.config.js          # Next.js configuration
 └── README.md
 ```
 
@@ -50,51 +62,46 @@ dev_pilotAI/
 
 1. Go to **GitHub → Settings → Developer settings → OAuth Apps**
 2. Create a new app:
-   - Homepage URL: `http://localhost:5173`
-   - Callback URL: `http://localhost:5000/api/auth/github/callback`
-     - Important: the **Callback URL must match exactly** the `GITHUB_CALLBACK_URL` in `server/.env` (including protocol and port). If the browser shows "site can't be reached" after authorizing, check this value and the `CLIENT_URL` in the server `.env`.
+   - Homepage URL: `http://localhost:3000`
+   - Callback URL: `http://localhost:3000/api/auth/github/callback`
+     - Important: the **Callback URL must match exactly** the `GITHUB_CALLBACK_URL` in `.env.local` (including protocol and port).
 3. Copy Client ID and Client Secret
 
-### 2. Backend Setup
+### 2. Setup
 
 ```bash
-cd server
-cp .env.example .env
-# Fill in MONGODB_URI, JWT_SECRET, GITHUB_*, AI keys
+cp .env.example .env.local
+# Fill in:
+# - MONGODB_URI
+# - JWT_SECRET
+# - GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+# - OPENAI_API_KEY (or GEMINI_API_KEY, or OPENROUTER_API_KEY)
+
 npm install
 npm run dev
 ```
 
-Server runs at `http://localhost:5000`
-
-### 3. Frontend Setup
-
-```bash
-cd client
-cp .env.example .env
-# Set VITE_API_URL=http://localhost:5000/api
-npm install
-npm run dev
-```
-
-Frontend runs at `http://localhost:5173`
+App runs at `http://localhost:3000`
 
 ## API Routes
 
 | Method | Route | Description |
 |--------|-------|-------------|
-| GET | `/api/auth/github` | Initiate GitHub OAuth |
-| GET | `/api/auth/github/callback` | OAuth callback |
-| POST | `/api/auth/github` | Mobile/token auth |
-| GET | `/api/auth/me` | Get current user |
+| GET/POST | `/api/auth/github` | GitHub OAuth (GET = initiate, POST = mobile) |
+| GET | `/api/auth/github/callback` | OAuth callback handler |
+| GET | `/api/auth/me` | Get current user info |
+| POST | `/api/auth/upgrade` | Upgrade to Pro plan |
 | GET | `/api/repos/sync` | Sync GitHub repos |
 | GET | `/api/repos` | List user repos |
-| GET | `/api/repos/:id` | Get single repo |
+| GET | `/api/repos/[id]` | Get single repo |
+| GET | `/api/repos/[id]/analyze` | Analyze repository |
 | POST | `/api/ai/generate-readme` | Generate README |
 | POST | `/api/ai/generate-description` | Generate descriptions |
 | POST | `/api/ai/generate-portfolio` | Generate portfolio (Pro) |
 | POST | `/api/ai/summarize-pr` | Summarize PR (Pro) |
 | POST | `/api/ai/explain-bug` | Explain bug |
+| GET | `/api/ai/generations` | Get user's generation history |
+| GET | `/api/health` | Health check |
 
 ## AI Provider Configuration
 
@@ -102,17 +109,17 @@ Set `AI_PROVIDER=openai` or `AI_PROVIDER=gemini` in server `.env`.
 
 ## Deployment
 
-### Frontend (Vercel)
+### Vercel
 
-1. Import `client/` directory
-2. Set `VITE_API_URL` to your Render backend URL + `/api`
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in project settings:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+   - `GITHUB_CALLBACK_URL=https://yourdomain.com/api/auth/github/callback`
+   - `OPENAI_API_KEY` (or your preferred AI provider)
+   - `NODE_ENV=production`
 3. Deploy
-
-### Backend (Render)
-
-1. Create Web Service from `server/` directory
-2. Use `render.yaml` or set env vars manually
-3. Update `GITHUB_CALLBACK_URL` and `CLIENT_URL` to production URLs
 
 ## Pricing Plans
 
