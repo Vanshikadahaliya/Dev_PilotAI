@@ -1,0 +1,6 @@
+{
+  "/api/auth/github/route": "app/api/auth/github/route.js",
+  "/api/auth/github/callback/route": "app/api/auth/github/callback/route.js",
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js"
+}
