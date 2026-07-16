@@ -58,3 +58,5 @@ export async function GET(request) {
     return NextResponse.redirect(new URL('/login?error=auth_failed', env.clientUrl));
   }
 }
+
+
