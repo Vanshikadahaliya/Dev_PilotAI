@@ -13,15 +13,25 @@ export default function AuthCallback() {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const token = searchParams.get('token');
-    if (token) {
+
+    // Defensive: if callback arrives without token, avoid throwing during login flow
+    if (!token) {
+      toast.error('Authentication failed');
+      router.replace('/login?error=auth_failed');
+      return;
+    }
+
+    // Defensive: avoid unhandled errors bubbling into Next error UI
+    try {
       login(token);
       toast.success('Welcome to DevPilot AI!');
       router.replace('/dashboard');
-    } else {
+    } catch (e) {
       toast.error('Authentication failed');
-      router.replace('/login');
+      router.replace('/login?error=auth_failed');
     }
   }, [login, router]);
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-4 px-4">
